@@ -14,7 +14,7 @@
 - Platforma: Node.js
 - Framework: Express
 - Autentificare: email + parola (hash parola) si sesiune cu token in cookie httpOnly.
-- Structura REST pe resurse: auth, projects, bugs, github (validate commit).
+- Structura REST pe resurse: auth, projects, bugs.
 
 ## 4. Baza de date si ORM
 - ORM: Prisma sau Sequelize (compatibile cu Node.js si baze relationale).
