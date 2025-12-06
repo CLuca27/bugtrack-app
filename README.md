@@ -18,4 +18,4 @@ Aplicatie web pentru gestionarea bug-urilor intr-un proiect software.
 ## Organizare repo
 - `docs/` – documentatie (specificatii, plan, API).
 - `client/` – aplicatia React (folder gol in acest moment).
-- `server/` – API Node/Express (folder gol in acest moment).
+- `server/` – API Node/Express --> Instructiunile cu comenzile de initializare si rulare a server-ului + endpoint-urile sunt in server/API_Instructions
