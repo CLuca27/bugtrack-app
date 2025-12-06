@@ -2,13 +2,23 @@ const express = require('express')
 const app = express() 
 const sequelize = require('./sequelize') 
 const routers = require('./router/routers')
+const session = require('express-session') 
+
 
 app.use(express.json()) 
-
+app.use(session({
+  secret: 'your-secret-key',  
+  resave: false,              
+  saveUninitialized: false,  
+  cookie: { 
+    secure: false,           
+    maxAge: 3600000 // 1h
+  }
+})); 
 
 app.use("/api/users", routers.userRouter) 
-app.use("api/bugs", routers.bugRouter) 
-app.use("api/projects", routers.projectRouter) 
+app.use("/api/bugs", routers.bugRouter) 
+app.use("/api/projects", routers.projectRouter) 
 
 
 app.listen(7000, async() => {
