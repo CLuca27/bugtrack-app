@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../sequelize')
-
+const sequelize = require('../sequelize') 
+const Project = require('./project')
 const User = sequelize.define('User', { 
 
   id: {
@@ -14,14 +14,9 @@ const User = sequelize.define('User', {
     unique: true, 
     validate: {isEmail: true}
   },
-  role: {
-    type: DataTypes.ENUM('MP', 'TST', 'None'),  // Rolurile posibile
-    allowNull: false,
-  },
   password: {
     type: DataTypes.STRING,
     allowNull: false,
   }
 }); 
-
 module.exports = User
