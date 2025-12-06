@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../sequelize')
-
+const sequelize = require('../sequelize') 
 
 const Bug = sequelize.define('Bug', {
   description: {
@@ -20,23 +19,23 @@ const Bug = sequelize.define('Bug', {
     allowNull: true,
   },
   status: {
-    type: DataTypes.STRING,
-    defaultValue: 'new',
-  },
-  assignedTo: {
+    type: DataTypes.ENUM('open', 'in_progres', 'solved'),
+    defaultValue: 'open',
+  }, 
+   projectId: {
     type: DataTypes.INTEGER,
-    references: {
-      model: 'Users',
-      key: 'id'
-    },
-    allowNull: true, 
-  },
-  projectId: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: 'Projects',
-      key: 'id'
-    },
-    allowNull: false,
-  }
-});
+    allowNull: false
+  }, 
+  
+  reporterId: { 
+    type: DataTypes.INTEGER, 
+    allowNull: false
+  },
+  assignedToId: { 
+    type: DataTypes.INTEGER, 
+    allowNull: true,
+    defaultValue: null
+  }
+}); 
+
+module.exports = Bug; 
