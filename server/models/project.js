@@ -1,6 +1,6 @@
 const {DataTypes } = require('sequelize');
 const sequelize = require("../sequelize")
-
+const User = require("./user")
 const Project = sequelize.define('Project', {
   name: {
     type: DataTypes.STRING,
@@ -18,4 +18,8 @@ const Project = sequelize.define('Project', {
     type: DataTypes.TEXT,
     allowNull: true,
   }
-});
+}); 
+
+
+module.exports = Project
+
