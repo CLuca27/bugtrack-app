@@ -1,141 +1,91 @@
+BugTrack API – Backend Documentation
+====================================
 
-🚀 BugTrack App – Documentație Backend
+🚀 Server Setup & Installation
+------------------------------
 
-Acesta este backend-ul aplicației BugTrack, construit în Node.js, folosind:
+Run the following commands in your terminal:
 
-Express
+    npm install
+    npm run dev
 
-Express-Session (autentificare prin sesiuni)
+The backend server will start at:
 
-Sequelize ORM
-
-SQLite pentru stocarea datelor
-
-Aplicația rulează local pe:
-
-http://localhost:7000
-
-📦 Instalare
-
-Asigurati-va că ati instalat Node.js (versiunea 16+).
-
-Apoi, în terminal:
-
-git clone https://github.com/CLuca27/bugtrack-app.git
-cd bugtrack-app
-npm install
+    http://localhost:7000
 
 
-Aceasta va instala toate pachetele listate în package.json:
+📦 Project Structure
+--------------------
 
--express
--express-session
--sqlite3
--sequelize
--bcrypt
--jsonwebtoken 
--nodemon
-
-▶️ Rulare server
-
-Pentru a porni serverul în modul development:
-
-npm run dev
-
-Serverul rulează pe:
-
-http://localhost:7000
-
-📁 Structura proiectului
 bugtrack-app/
-  server/
-    app.js
-    models/
-    router/
-    middleware/
-  package.json
-  README.md
+    server/
+        app.js
+        models/
+        router/
+        middleware/
+    package.json
+    README.md
 
-📘 Endpoints API
 
-////////////////////////////////////
-🧑‍💻 USER ENDPOINTS (/api/users)
-POST /api/users/register
+🧑‍💻 User Endpoints (/api/users)
+-------------------------------
 
-Înregistrează un utilizator.
+POST /api/users/register  
+Registers a new user.
 
-{
-  "email": "user@example.com",
-  "password": "123456"
-}
+POST /api/users/login  
+Authenticates user and creates session.
 
-POST /api/users/login
+GET /api/users/profile  
+Returns logged-in user profile.
 
-Autentifică utilizatorul și creează sesiunea.
 
-GET /api/users/profile
+🧩 Project Endpoints (/api/projects)
+-------------------------------------
 
-Returnează datele utilizatorului logat.
+POST /api/projects/create  
+Creates a new project and assigns the creator as MP.
 
-////////////////////////////////////
-🧩 PROJECT ENDPOINTS (/api/projects)
+GET /api/projects/  
+Returns all projects associated with the logged-in user.
 
-Toate necesită autentificare (middleware: authenticateSession).
+GET /api/projects/:id  
+Returns project details.
 
-POST /api/projects/create
+PUT /api/projects/:id  
+Updates a project (only MP can edit).
 
-Creează un proiect nou și îl asociază utilizatorului ca MP.
+POST /api/projects/:id/add-tester  
+Adds the user as TST to the project.
 
-Body:
 
-{
-  "name": "Project 1",
-  "repositoryLink": "https://github.com/example",
-  "status": "Done",
-  "description": "Test project"
-}
+🐞 Bug Endpoints (/api/bugs)
+----------------------------
 
-GET /api/projects/
+GET /api/bugs?projectId={id}  
+Returns all bugs for a project.
 
-Returnează toate proiectele la care utilizatorul este membru (TST sau MP).
+POST /api/bugs/  
+Creates a bug (only TST).
 
-GET /api/projects/:id
+PUT /api/bugs/:id  
+Updates bug status (only MP).
 
-Returnează detalii dintr-un proiect dacă userul este asociat cu el.
+PUT /api/bugs/:id/assign  
+Assigns the bug to an MP.
 
-PUT /api/projects/:id
 
-Modifică proiectul → doar MP are voie.
+✅ Summary
+---------
 
-POST /api/projects/:id/add-tester
+To start backend:
 
-Permite unui user să se înregistreze ca TST într-un proiect.
+    npm install
+    npm run dev
 
-////////////////////////////////////
-🐞 BUG ENDPOINTS (/api/bugs)
-GET /api/bugs?projectId={id}
+The server listens on:
 
-Returnează toate bug-urile dintr-un proiect în care userul este TST/MP.
-
-POST /api/bugs/
-
-Creează un bug nou.
-➡ Doar TST poate crea bug-uri.
-
-Body:
-
-{
-  "projectId": 1,
-  "description": "Bug description",
-  "severity": "High",
-  "priority": "P1",
-  "commitLink": "https://github.com/commit/123"
-}
-
-PUT /api/bugs/:id
-
-Modifică statusul unui bug.
-➡ Doar MP poate modifica.
+    http://localhost:7000
 
 PUT /api/bugs/:id/assign
 
