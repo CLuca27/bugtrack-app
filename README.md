@@ -1,4 +1,4 @@
-# BugTrack U
+# BugTrack
 
 Aplicatie web pentru gestionarea bug-urilor intr-un proiect software.
 
