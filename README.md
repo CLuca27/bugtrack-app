@@ -19,3 +19,6 @@ Aplicatie web pentru gestionarea bug-urilor intr-un proiect software.
 - `docs/` – documentatie (specificatii, plan, API).
 - `client/` – aplicatia React (folder gol in acest moment).
 - `server/` – API Node/Express.
+
+### Instructiuni utlizare server
+Fisierul server/README.md pentru configurare si instructiuni de rulare.
