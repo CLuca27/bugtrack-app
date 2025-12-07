@@ -1,0 +1,88 @@
+BugTrack API – Backend Documentation
+====================================
+
+🚀 Server Setup & Installation
+------------------------------
+
+Run the following commands in your terminal:
+
+    npm install
+    npm run dev
+
+The backend server will start at:
+
+    http://localhost:7000
+
+
+📦 Project Structure
+--------------------
+
+bugtrack-app/
+    server/
+        app.js
+        models/
+        router/
+        middleware/
+    package.json
+    README.md
+
+
+🧑‍💻 User Endpoints (/api/users)
+-------------------------------
+
+POST /api/users/register  
+Registers a new user.
+
+POST /api/users/login  
+Authenticates user and creates session.
+
+GET /api/users/profile  
+Returns logged-in user profile.
+
+
+🧩 Project Endpoints (/api/projects)
+-------------------------------------
+
+POST /api/projects/create  
+Creates a new project and assigns the creator as MP.
+
+GET /api/projects/  
+Returns all projects associated with the logged-in user.
+
+GET /api/projects/:id  
+Returns project details.
+
+PUT /api/projects/:id  
+Updates a project (only MP can edit).
+
+POST /api/projects/:id/add-tester  
+Adds the user as TST to the project.
+
+
+🐞 Bug Endpoints (/api/bugs)
+----------------------------
+
+GET /api/bugs?projectId={id}  
+Returns all bugs for a project.
+
+POST /api/bugs/  
+Creates a bug (only TST).
+
+PUT /api/bugs/:id  
+Updates bug status (only MP).
+
+PUT /api/bugs/:id/assign  
+Assigns the bug to an MP.
+
+
+✅ Summary
+---------
+
+To start backend:
+
+    npm install
+    npm run dev
+
+The server listens on:
+
+    http://localhost:7000
