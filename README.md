@@ -22,3 +22,6 @@ Aplicatie web pentru gestionarea bug-urilor intr-un proiect software.
 
 ### Instructiuni utlizare server
 Fisierul server/README.md pentru configurare si instructiuni de rulare.
+
+### ⚠️ LINK
+🚨 **Website:** http://51.20.41.168:7000
