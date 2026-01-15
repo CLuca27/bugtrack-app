@@ -147,13 +147,17 @@ export default function Dashboard() {
 
   // --- HANDLERS ---
 
-  const handleLogout = async () => {
-    try {
-        navigate("/login");
-    } catch (error) {
-        navigate("/login");
-    }
-  };
+ const handleLogout = async () => {
+  try {
+    // Trimitem cererea la ruta de logout pe care o ai deja în backend
+    await api.post("/users/logout"); 
+    // Acum că serverul a șters sesiunea, mergem la login
+    navigate("/login");
+  } catch (error) {
+    console.error("Eroare la logout:", error);
+    navigate("/login"); // Mergem oricum la login în caz de eroare
+  }
+};
 
   const handleSelectProject = (project) => {
     setBugs([]); 
