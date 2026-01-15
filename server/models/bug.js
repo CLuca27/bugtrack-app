@@ -17,6 +17,11 @@ const Bug = sequelize.define('Bug', {
   commitLink: {
     type: DataTypes.STRING,
     allowNull: true,
+  }, 
+  resolutionCommitLink: 
+  {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
   status: {
     type: DataTypes.ENUM('open', 'in_progres', 'solved'),

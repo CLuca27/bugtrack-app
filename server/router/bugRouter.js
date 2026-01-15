@@ -1,5 +1,5 @@
 const express = require('express');
-const { Bug, UserProjects} = require('../models/associations'); // Modelul Bug
+const { Bug, UserProjects, User} = require('../models/associations'); // Modelul Bug
 const bugRouter = express.Router();
 const authenticateSession = require('../middleware/authenticateSession')
 
@@ -25,7 +25,16 @@ bugRouter.get('/', authenticateSession, async (req, res) => {
       return res.status(403).json({ message: 'User not associated with this project' });
     }
 
-    const bugs = await Bug.findAll({ where: { projectId } });
+    const bugs = await Bug.findAll({
+      where: { projectId },
+      include: [
+        {
+          model: User,
+          as: 'AssignedTo',
+          attributes: ['id', 'email']
+        }
+      ]
+    });
 
     return res.status(200).json({ bugs });
   } catch (error) {
@@ -52,15 +61,17 @@ bugRouter.post('/', authenticateSession, async (req, res) => {
     if (role !== 'TST') {
       return res.status(403).json({ message: 'Only TST can create bugs' });
     }
-
+    
+    let resolutionCommitLink = null;
     const bug = await Bug.create({
       description,
       severity,
       priority,
-      commitLink,
+      commitLink, 
+      resolutionCommitLink,
       projectId: numericProjectId,
       reporterId: req.user.id,
-      status: 'OPEN'
+      status: 'open'
     });
 
     return res.status(201).json({ message: 'Bug created successfully', bug });
@@ -150,8 +161,6 @@ bugRouter.put('/:id/assign', authenticateSession, async (req, res) => {
         return res.status(500).json({ message: 'Server error during bug assignment' });
     }
 });
-
-
 
 
 module.exports = bugRouter;

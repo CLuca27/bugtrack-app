@@ -5,14 +5,14 @@ const bcrypt = require('bcrypt');
 
 userRouter.post('/register', async (req, res) => {
   try {
-    const { email, password, role } = req.body;
+    const { email, password} = req.body;
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
-
+    
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ email, password: hashedPassword, role });
+    const user = await User.create({ email, password: hashedPassword});
     res.status(201).json({ message: 'User registered successfully', user });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error });
@@ -38,6 +38,14 @@ userRouter.post('/login', async (req, res) => {
     res.status(500).json({ message: 'Server error', error });
   }
 }); 
+
+userRouter.post('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) return res.status(500).json({ message: 'Eroare la logout' });
+        res.clearCookie('connect.sid'); // Șterge cookie-ul de sesiune din browser
+        return res.status(200).json({ message: 'Logout reușit' });
+    });
+});
 
 userRouter.get('/profile', (req, res) => {
   if (!req.session.user) {

@@ -1,8 +1,8 @@
 const express = require('express');
-const { Project } = require('../models/associations');
-const { UserProjects } = require('../models/associations');
+const { UserProjects, Project, User} = require('../models/associations');
 const projectRouter = express.Router(); 
 const authenticateSession = require('../middleware/authenticateSession')
+const { Op } = require('sequelize');
 
 projectRouter.post('/create', authenticateSession, async (req, res) => {
   try {
@@ -35,7 +35,32 @@ projectRouter.post('/create', authenticateSession, async (req, res) => {
     console.error(error);
     return res.status(500).json({ message: 'Server error', error });
   }
+}); 
+
+projectRouter.get("/available", authenticateSession, async (req, res) => {
+  try {
+    const userId = req.user.id; // mai bine decat req.session.user.id, pt ca middleware deja seteaza req.user
+
+    const links = await UserProjects.findAll({
+      where: { userId },
+      attributes: ["projectId"],
+    });
+
+    const myProjectIds = links.map(x => x.projectId);
+
+    const availableProjects = await Project.findAll({
+      where: myProjectIds.length
+        ? { id: { [Op.notIn]: myProjectIds } }
+        : {},
+    });
+
+    return res.status(200).json({ projects: availableProjects });
+  } catch (error) {
+    console.error("GET /projects/available error:", error);
+    return res.status(500).json({ message: "Eroare server", error: String(error) });
+  }
 });
+
 
 projectRouter.get('/:id', authenticateSession, async (req, res) => {
   try {
@@ -89,7 +114,6 @@ projectRouter.get('/', authenticateSession, async (req, res) => {
   }
 });
  
-
 projectRouter.put('/:id', authenticateSession, async (req, res) => {
   try {
     const projectId = parseInt(req.params.id, 10);
@@ -190,5 +214,29 @@ projectRouter.post('/:id/add-tester', authenticateSession, async (req, res) => {
         console.error(error);
         return res.status(500).json({ message: 'Server error during TST registration' });
     }
+});
+projectRouter.post('/:id/add-member', authenticateSession, async (req, res) => {
+  try {
+    const projectId = parseInt(req.params.id, 10);
+    const { email } = req.body; // Am eliminat 'role' din body, îl setăm automat mai jos
+
+    // 1. Găsim utilizatorul după email
+    const userToAdd = await User.findOne({ where: { email } });
+    if (!userToAdd) {
+      return res.status(404).json({ message: 'Utilizatorul cu acest email nu a fost găsit în baza de date.' });
+    }
+
+    // 2. Îl adăugăm automat ca MP (Project Manager)
+    await UserProjects.create({
+      userId: userToAdd.id,
+      projectId,
+      role: 'MP' // Rol fixat automat aici
+    });
+
+    return res.status(201).json({ message: 'Membru adăugat cu succes ca MP!' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Eroare la server.' });
+  }
 });
 module.exports = projectRouter;

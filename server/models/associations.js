@@ -25,6 +25,6 @@ Bug.belongsTo(Project, {foreignKey: 'projectId'})
 Bug.belongsTo(User, {foreignKey: 'reporterId'}) 
 
 
-Bug.belongsTo(User, {foreignKey: 'assignedToId'})
+Bug.belongsTo(User, { as: 'AssignedTo', foreignKey: 'assignedToId' });
 
 module.exports = {Bug, Project, User, UserProjects}
