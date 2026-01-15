@@ -37,11 +37,11 @@ app.use("/api/projects", routers.projectRouter)
 // -------------------------------------------------------------------------
 
 // Spunem serverului să caute fișiere statice (HTML, CSS, JS) în folderul build al React
-app.use(express.static(path.join(__dirname, '../client/build')));
+app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // Orice rută care NU este de API (gen /dashboard, /login), o trimitem către React
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+app.get((req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
 });
 
 // -------------------------------------------------------------------------
