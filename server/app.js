@@ -10,7 +10,7 @@ app.use(express.json())
 
 // CORS poate rămâne așa, sau poți permite orice origine pentru simplificare pe server
 app.use(cors({
-  origin: "http://localhost:5173", // Local merge
+  origin: true
   credentials: true
 }));
 
